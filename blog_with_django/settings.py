@@ -122,6 +122,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT=os.path.join(BASE_DIR,'media') # directory where uploaded files will be saved
+MEDIA_URL='/media/' #to access the image
+
 CRISPY_TEMPLATE_PACK='bootstrap4'#for cripy to load in bootstrap 4
 LOGIN_REDIRECT_URL ='blog_home' #by default after login django redirects url to profile section
 LOGIN_URL='login' ## to redirect traffic from profile if user is not logged in
+
