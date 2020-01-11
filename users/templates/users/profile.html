@@ -9,7 +9,19 @@
         <p class="text-secondary">{{user.email}}</p>
       </div>
     </div>
-    <!-- FORM HERE -->
+      <form action="" method="POST" enctype="multipart/form-data"> 
+        <!-- you have to add encoding type for the form to save image data in backgroun -->
+        <!-- csrf token  cross site forgery token to protect site from certain attack-->
+        {%csrf_token%}
+        <fieldset class='form-group'>
+            <legend class="border-bottom mb-4">Profile Info</legend>
+            {{u_form|crispy}}
+            {{p_form|crispy}}
+        </fieldset>
+        <div class="form-group">
+            <button class='btn btn-outline-info' type="submit">Update</button>
+        </div>
+    </form>
   </div>
   
 {%endblock content%}
