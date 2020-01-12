@@ -9,8 +9,10 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post,Comments
+from .forms import CommentForm
 from django.contrib.auth.models import User
-
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
     context={
@@ -87,13 +89,28 @@ def about(request):
     return render(request,'blog/about.html',{'title':'about'})
 
 
-class CommentCreateView(LoginRequiredMixin,CreateView):
-    model=Comments
-    #success_url='' if you wan to redirect to another page
-    fields=['content']
+# class CommentCreateView(LoginRequiredMixin,CreateView):
+#     model=Comments
+#     #success_url='' if you wan to redirect to another page
+#     fields=['content']
 
-    #overide form_valid method to let createview know who is the user
-    def form_valid(self,form):
-        form.instance.author=self.request.user
-        form.instance.post=self.request.GET.get('post')
-        return super().form_valid(form)
+#     #overide form_valid method to let createview know who is the user
+#     def form_valid(self,form):
+#         form.instance.author=self.request.user
+#         form.instance.post=self.request.GET.get('post')
+#         return super().form_valid(form)
+
+@login_required
+def add_comment_to_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author=request.user
+            comment.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/comments_form.html', {'form': form})

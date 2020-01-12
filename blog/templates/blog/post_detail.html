@@ -20,6 +20,23 @@
 <p class="article-content">{{ post.contents }}</p>
 </div>
 </article>
+<div>
+    <h2>Comments</h2>
+</div>
+{%for comment in post.comments.all %}
+<article class=" comment media">
+  <!-- <img class="rounded-circle article-img"  src="{{post.author.profile.image.url}}" > -->
+    <div class="comment">
+      <div class="comment">
+        <a class="mr-2" href="{%url 'user_post' comment.author.username %}">{{ comment.author }}</a>
+        <small class="text-muted date">{{ comment.date_posted|date:"F d,  g:i A" }}</small>
+      </div>
+      <p class="article-content">{{ comment.content}}</p>
+    </div>
+  </article>
+  {%empty%}
+    <p>No comments yet! <br>Be the first to comment..</p>
+  {%endfor%}
 {%endblock%}
 
 <!-- class based views takes variable names as objects -->

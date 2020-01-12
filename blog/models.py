@@ -8,7 +8,7 @@ class Comments(models.Model):
     author=models.ForeignKey(User,on_delete=models.PROTECT) # ensuring deleting user dont delete comments on other's post
     content=models.TextField()
     date_posted=models.DateTimeField(default=timezone.now)
-    post=models.ForeignKey('Post',on_delete=models.CASCADE,null=True)
+    post=models.ForeignKey('Post',on_delete=models.CASCADE,null=True,related_name='comments') # related name is like GOD
     def __str__(self):
         return f'{self.author} cmnt'
     def get_absolute_url(self):
