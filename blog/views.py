@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import (LoginRequiredMixin, # to redirect is not logged in
 UserPassesTestMixin)
 from django.views.generic import (
@@ -9,6 +9,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
@@ -23,6 +24,22 @@ class PostListView(ListView):
     template_name='blog/home.html'#<app>/<model>_<view>.html
     context_object_name='posts'
     ordering=['-date_posted'] #- for reverse
+    paginate_by=8
+
+class UserPostListView(ListView):
+    model=Post
+    template_name='blog/user_home.html'#<app>/<model>_<view>.html
+    context_object_name='posts'
+    #ordering=['-date_posted'] #- for reverse
+    paginate_by=5
+
+    def get_queryset(self):
+        user=get_object_or_404(User,username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
+
+
+
+
 
 class PostDetailView(DetailView):
     model=Post
