@@ -9,7 +9,7 @@ class profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    def save(self):  # for rescaling image size
+    def save(self,*args,**kwargs):  # for rescaling image size
         super().save()
         img=Image.open(self.image.path)
         if img.height>300 or img.width>300:
