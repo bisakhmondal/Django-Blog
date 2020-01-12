@@ -8,7 +8,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post,Comments
+from .models import Post,Comments,announcements
 from .forms import CommentForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -25,6 +25,12 @@ class PostListView(ListView):
     model=Post
     template_name='blog/home.html'#<app>/<model>_<view>.html
     context_object_name='posts'
+    ordering=['-date_posted'] #- for reverse
+    paginate_by=8
+class AnnouncementListView(ListView):
+    model=announcements
+    template_name='blog/announcement.html'#<app>/<model>_<view>.html
+    context_object_name='ann'
     ordering=['-date_posted'] #- for reverse
     paginate_by=8
 
