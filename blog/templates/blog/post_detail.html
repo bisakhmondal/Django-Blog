@@ -8,10 +8,13 @@
 <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
 {%if post.author == user%}
 <div>
-<a class='btn btn-outline-info btn-sm mt-1 mb-1 ' href="{%url 'post_update' post.id%}">Update</a>
-<a class='btn btn-outline-danger btn-sm mt-1 mb-1 ' href="{%url 'post_delete' post.id%}">Delete</a>
+<a class='btn btn-outline-info btn-sm mt-1 mb-1 col-sm-3' href="{%url 'post_update' post.id%}">Update</a>
+<a class='btn btn-outline-danger btn-sm mt-1 mb-1 col-sm-3' href="{%url 'post_delete' post.id%}">Delete</a>
 </div>
 {%endif%}
+<div>
+    <a class='btn btn-secondary btn-sm mt-1 mb-1 col-sm-6' href="{%url 'comment_create' post.id%}">Add Comment</a>
+</div>
 </div>
 <h2 class="article-title">{{ post.title }}</h2>
 <p class="article-content">{{ post.contents }}</p>

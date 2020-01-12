@@ -8,7 +8,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post
+from .models import Post,Comments
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -25,6 +25,8 @@ class PostListView(ListView):
     context_object_name='posts'
     ordering=['-date_posted'] #- for reverse
     paginate_by=8
+
+    # def ger_context
 
 class UserPostListView(ListView):
     model=Post
@@ -83,3 +85,15 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     
 def about(request):
     return render(request,'blog/about.html',{'title':'about'})
+
+
+class CommentCreateView(LoginRequiredMixin,CreateView):
+    model=Comments
+    #success_url='' if you wan to redirect to another page
+    fields=['content']
+
+    #overide form_valid method to let createview know who is the user
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        form.instance.post=self.request.GET.get('post')
+        return super().form_valid(form)
