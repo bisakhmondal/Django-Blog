@@ -1,22 +1,42 @@
 {%extends 'blog/base.html'%}
 {%block content%}
 <article class="media content-section">
-<img class="rounded-circle article-img"  src="{{post.author.profile.image.url}}" >
-<div class="media-body">
-<div class="article-metadata">
-<a class="mr-2" href="#">{{ post.author }}</a>
-<small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-{%if post.author == user%}
-<div>
-<a class='btn btn-outline-info btn-sm mt-1 mb-1 ' href="{%url 'post_update' post.id%}">Update</a>
-<a class='btn btn-outline-danger btn-sm mt-1 mb-1 ' href="{%url 'post_delete' post.id%}">Delete</a>
-</div>
-{%endif%}
-</div>
-<h2 class="article-title">{{ post.title }}</h2>
-<p class="article-content">{{ post.contents }}</p>
-</div>
+    <img class="rounded-circle article-img"  src="{{post.author.profile.image.url}}" >
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+            {%if post.author == user%}
+            <div>
+                <a class='btn btn-outline-info btn-sm mt-1 mb-1 col-sm-3' href="{%url 'post_update' post.id%}">Update</a>
+                <a class='btn btn-outline-danger btn-sm mt-1 mb-1 col-sm-3' href="{%url 'post_delete' post.id%}">Delete</a>
+            </div>
+            {%endif%}
+            <div>
+                <a class='btn btn-outline-success btn-sm mt-1 col-sm-6 ' href="{%url 'comment_create' post.id%}">Add Comment</a>
+            </div>
+        </div>
+        <h2 class="article-title">{{ post.title }}</h2>
+        <p class="article-content">{{ post.contents }}</p>
+    </div>
 </article>
+<div>
+    <h2>Comments</h2>
+</div>
+{%for comment in post.comments %}
+<article class="media content-section">
+  <!-- <img class="rounded-circle article-img"  src="{{post.author.profile.image.url}}" > -->
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ comment.author }}</a>
+        <small class="text-muted">{{ comment.date_posted|date:"F d, at g:i A" }}</small>
+      </div>
+      <p class="article-content">{{ comment.content}}</p>
+    </div>
+    {%empty%}
+    <p>No comments yet! <br>Be the first to comment..</p>
+  </article>
+  {%endfor%}
 {%endblock%}
 
 <!-- class based views takes variable names as objects -->

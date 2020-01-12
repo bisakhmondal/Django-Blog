@@ -8,7 +8,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post
+from .models import Post,Comments
 
 # Create your views here.
 def home(request):
@@ -27,12 +27,26 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model=Post
     context_object_name='post'
+
+    def get_context_data(self,**kwargs):
+        context= super().get_context_data(**kwargs)
+        context['comments']=Comments.objects.first()
+        return context
     
 
 class PostCreateView(LoginRequiredMixin,CreateView):
     model=Post
     #success_url='' if you wan to redirect to another page
     fields=['title','contents']
+
+    #overide form_valid method to let createview know who is the user
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        return super().form_valid(form)
+class CommentCreateView(LoginRequiredMixin,CreateView):
+    model=Comments
+    #success_url='' if you wan to redirect to another page
+    fields=['content']
 
     #overide form_valid method to let createview know who is the user
     def form_valid(self,form):
