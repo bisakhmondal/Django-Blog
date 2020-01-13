@@ -1,0 +1,21 @@
+{%extends 'blog/base.html'%}
+{%block content%}                     
+<div class="container bootstrap snippet">
+    <div class="profile card">
+        <div class="profile-body">
+            <div class="profile-bio">
+                <div class="row">
+                    <div class="col-md-5 text-center">
+                        <img class="img-thumbnail md-margin-bottom-10" src="https://bootdey.com/img/Content/user-453533-fdadfd.png" alt="">
+                    </div>
+                        <!-- <span><strong>Position:</strong> Web Designer</span> -->
+                        <p>Hey Friends!! The site is made to share knowledge and have a good discussion on Competitive Programming.</p>
+                        <p>Let's start this small initiative to practice cp on a regular basis and help each other out by sharing good problems, algorithms, own thoughts, whatever You wish.</p>
+                        <h3 align='right' >~ Bisakh</h3>
+                    </div>
+                </div>    
+            </div>
+    	</div>
+    </div>
+</div>                                                            
+{%endblock content%}
